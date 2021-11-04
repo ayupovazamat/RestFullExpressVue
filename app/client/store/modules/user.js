@@ -15,10 +15,9 @@ const getters = {
 const actions = {
   [USER_REQUEST]: async ({commit, dispatch}) => {
     commit(USER_REQUEST);
-    console.log('token')
+
     const user = await ({url: '/api/user/', method: 'POST', headers: {"Authorization": "Bearer token"}})
     const token = user.data.token
-    console.log(token)
     /*apiCall({ url: "user/me" })
        .then(resp => {
          commit(USER_SUCCESS, resp);

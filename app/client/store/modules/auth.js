@@ -43,7 +43,7 @@ export default {
 
              commit(AUTH_SUCCESS, token)
              // у вас есть токен, теперь войдите в систему как пользователь
-             dispatch(USER_REQUEST)
+             dispatch('USER_REQUEST', null, {root:true})
              resolve(resp)
            })
            .catch(err => {

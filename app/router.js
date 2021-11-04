@@ -15,19 +15,21 @@ const ifNotAuthenticated = (to, from, next) => {
   //  если не авторизован
   if (!store.getters["auth/isAuthenticated"]) {
     next()
-    return
   }
-  next('/')
+  else {
+    //debugger
+    next({name: 'Main'})
+  }
 }
 
 
 const ifAuthenticated = (to, from, next) => {
-  // если авторизован
+  // если авторизован, то отправляем на компонент
   if (store.getters["auth/isAuthenticated"]) {
     next()
-    return
   }
-  next('/login')
+  else
+  next({ name: 'Login' }) // иначе на страницу авторизации
 }
 
 export function createRouter(store) {
@@ -50,7 +52,8 @@ export function createRouter(store) {
         meta: {
           pageTitle: 'Account',
         },
-        beforeEnter: ifAuthenticated
+        beforeEnter: ifAuthenticated,
+
       },
       {
         path: '/login',

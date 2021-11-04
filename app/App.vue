@@ -13,9 +13,12 @@
   export default {
     name: 'app',
     metaInfo: {},
+    watch: {},
     created() {
-      if (this.$store.getters["auth/isAuthenticated"]) {
-        this.$store.dispatch("auth/USER_REQUEST")
+      if (this.$store.getters["isAuthenticated"]) {
+        //this[USER_REQUEST](null)
+
+        this.$store.dispatch("user/USER_REQUEST")
       }
     }
   }

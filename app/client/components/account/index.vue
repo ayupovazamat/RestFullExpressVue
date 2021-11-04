@@ -1,11 +1,11 @@
 <template>
   <div>
     <h1>Account</h1>
-
+    <div>Email: </div>
   </div>
 </template>
 <script>
-  import Login from '../login/index.vue'
+  //import Login from '../login/index.vue'
   export default {
     metaInfo() {
       return {
@@ -14,7 +14,7 @@
     },
     name: 'account',
     components: {
-      Login
+      //Login
     },
     data() {
       return {}

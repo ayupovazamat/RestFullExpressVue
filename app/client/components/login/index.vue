@@ -33,7 +33,7 @@
       login() {
         const {email, password} = this
         this[AUTH_REQUEST]({email, password}).then(() => {
-          this.$router.push('/')
+          //this.$router.push('/').catch(() => {})
         })
         /*this.$store.dispatch(AUTH_REQUEST, null, {email, password}).then(() => {
           this.$router.push('/')
