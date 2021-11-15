@@ -14,7 +14,7 @@ class Db {
         username text, 
         email text UNIQUE, 
         password varchar(256),
-        is_admin integer)`
+        role integer)`
     return this.db.run(sql);
   }
 }

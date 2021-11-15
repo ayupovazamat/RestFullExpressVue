@@ -12,7 +12,6 @@ const postUserAuth = async (req, res, next) => {
   const {email, password} = req.body
   try {
     await authUser(email, password).then(e => {
-      //console.log(e)
       res.send(e)
     })
     // вызов другой службы (или та же служба, сюда может идти другая функция)
@@ -27,8 +26,8 @@ const postUserAuth = async (req, res, next) => {
 const postUserRegister = async (req, res, next) => {
   const {email, password} = req.body
   try {
-    await registerUser(email, password)
-
+    let test = await registerUser(email, password)
+    console.log(test)
     //res.sendStatus(200)
     next()
   } catch (e) {
