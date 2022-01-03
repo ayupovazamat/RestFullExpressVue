@@ -9,27 +9,26 @@ const {authUser, registerUser} = userAuthService
 */
 const postUserAuth = async (req, res, next) => {
 
-  const {email, password} = req.body
+  const {email, password} = req.body;
   try {
-    await authUser(email, password).then(e => {
-      //console.log(e)
-      res.send(e)
-    })
+    let result = await authUser(email, password);
+    res.send(result)
     // вызов другой службы (или та же служба, сюда может идти другая функция)
     // то есть - await generateBlogpostPreview ()
 
     next()
   } catch (e) {
-    console.log(e.message)
-    res.sendStatus(500) && next(error)
+    console.log('err 2', e)
+    //res.sendStatus(500) && next(error)
   }
 }
+
 const postUserRegister = async (req, res, next) => {
   const {email, password} = req.body
   try {
     await registerUser(email, password)
 
-    //res.sendStatus(200)
+    // res.sendStatus(200)
     next()
   } catch (e) {
     console.log(e.message)
