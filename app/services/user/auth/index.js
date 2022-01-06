@@ -136,26 +136,51 @@ const authUser = async (email, password) => {
           resolve(new Error('Пользователь не найден'));
         } else resolve(user);
       })
-    });
-    const user = await checkUser;
-
+    })
+    const user = await checkUser
     // Сверяем хеш с паролем
     const isValidPass = !('password' in user) ? false : await comparePassword(password, user.password);
 
-    if (!isValidPass) return {auth: false, token: null};
+    if (!isValidPass) return {auth: false, token: null}
 
-    // если все успешно, то отправляем токен
+    // если все успешно то отправляем токен
     let token = jwt.sign(
-      {id: user.id, email: user.email},
-      config.secret,
-      {
-        expiresIn: 86400 // expires in 24 hours
-      });
+       {id: user.id},
+       config.secret,
+       {
+         expiresIn: 86400 // expires in 24 hours
+       });
     return {
       auth: true,
       token: token,
-      user: user
+      //user: user
     };
+    ///////
+
+
+    /*let test = await userModel.selectByEmail(email,  async (err, user) => {
+      console.log(2)
+      if (err) return 'Error on the server. Ошибка при проверке email.';
+      if (!user) return 'Пользователь не найден';
+      // Сверяем хеш с паролем
+      return await bcrypt.compare(password, user.password).then((res) => {
+        console.log(3)
+        if (!res) return {auth: false, token: null}
+        // если все успешно то отправляем токен
+        let token = jwt.sign(
+           {id: user.id},
+           config.secret,
+           {
+             expiresIn: 86400 // expires in 24 hours
+           });
+        return {
+          auth: true,
+          token: token,
+          user: user
+        };
+      })
+    });
+    return test*/
   } catch (e) {
     throw new Error(e.message)
   }
