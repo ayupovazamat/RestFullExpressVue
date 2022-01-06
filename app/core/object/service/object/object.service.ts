@@ -6,19 +6,26 @@ import {ObjectEntity} from './../../entity/object.entity';
 
 @Injectable()
 export class ObjectService {
-  public objects: ObjectDto[] = [];
-
-  create(object: ObjectDto): ObjectDto {
-    this.objects.push(object);
-    return object;
+  /*public objects: ObjectDto[] = [];*/
+  constructor(
+    @InjectRepository(ObjectEntity)
+    private objectRepository: Repository<ObjectEntity>
+  ) {
   }
 
-  findAll(): ObjectDto[] {
-    return this.objects;
+  create(object: ObjectDto): Promise<ObjectDto> {
+    return this.objectRepository.save(object);
+    /*this.objects.push(object);
+    return object;*/
   }
 
-  /*getObject(objectID: number) {
-    let id = Number(objectID);
+  findAll(): Promise<ObjectDto[]> {
+    return this.objectRepository.find();
+    //return this.objects;
+  }
+
+  getObject(id: number) {
+    let id = Number(id);
     return new Promise(resolve => {
       const object = this.objectRepository.find(object => object.id === id);
       if (!object) {
@@ -26,7 +33,7 @@ export class ObjectService {
       }
       resolve(object);
     });
-  }*/
+  }
 
   /*deleteObject(objectID): Promise<any> {
       let id = Number(objectId);

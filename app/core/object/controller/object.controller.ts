@@ -11,23 +11,23 @@ export class ObjectController {
     * Создание объекта
     * */
     @Post()
-    create(@Body() object: ObjectDto): ObjectDto{
+    create(@Body() object: ObjectDto): Promise<ObjectDto>{
         return this.objectService.create(object);
     }
 
     /*
     * Получения объекта по ID
     * */
-    /*@Get(':objectID')
-    async getObject(@Param('objectID') objectID: number): Promise<any> {
-        return await this.objectService.getObject(objectID);
-    }*/
+    @Get(':id')
+    async getObject(@Param('id') id: number): Promise<any> {
+        return await this.objectService.getObject(id);
+    }
 
     /*
     * Получение списка объектов
     * */
     @Get()
-    async findAll(): Promise<Object[]> {
+    async findAll(): Promise<ObjectDto[]> {
         return this.objectService.findAll();
     }
 
