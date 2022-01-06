@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
     "module": "commonjs",
     "target": "ES6",
     "noImplicitAny": true,
@@ -17,7 +21,14 @@
     "baseUrl": "./",
     "incremental": true
   },
+  "lib": [
+    "esnext",
+    "dom",
+    "dom.iterable",
+    "scripthost"
+  ],
   "include": [
-    "./**/*"
+    "src/**/*.ts",
+    "src/**/*.vue"
   ]
 }

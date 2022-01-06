@@ -28,7 +28,7 @@ const postUserRegister = async (req, res, next) => {
   try {
     await registerUser(email, password)
 
-    // res.sendStatus(200)
+    //res.sendStatus(200)
     next()
   } catch (e) {
     console.log(e.message)

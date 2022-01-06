@@ -41,16 +41,19 @@ async function getUserByEmail(email) {
 const registerUser = async (email, password) => {
   // создаем юзера в бд
   try {
-    await userModel.selectByEmail(email, async (err, user) => {
-      if (user === undefined) { // 'пользователя не существует, все ок, можно создавать'
-        // создаем хеш пароля
-        const hash = await hashing(password)
-        // создаем юзера в бд
-        await createUser(email, hash)
-        console.log('Пользователь создан')
-      } else {
-        return 'Пользователь с таким email уже существует'
-      }
+    return new Promise(async (resolve) => {
+      await userModel.selectByEmail(email, async (err, user) => {
+        if (user === undefined) { // 'пользователя не существует, все ок, можно создавать'
+          // создаем хеш пароля
+          const hash = await hashing(password)
+          // создаем юзера в бд
+          const user = await createUser(email, hash)
+          // возврат ответа
+          return resolve(user)
+        } else {
+          return 'Пользователь с таким email уже существует'
+        }
+      })
     })
 
   } catch (e) {
@@ -59,20 +62,52 @@ const registerUser = async (email, password) => {
 }
 
 const createUser = async (email, hash) => {
-  await userModel.createUser([
-      email,
-      hash
-    ],
-    async (err) => { // обрабатываем ошибку
-      if (err) return 'При регистрации пользователя возникла ошибка';
-      await userModel.selectByEmail(email, (err, user) => {
-        if (err) return 'Возникла проблема с получением пользователя';
-        let token = jwt.sign({id: user.id}, config.secret, {
-          expiresIn: 86400 // expires in 24 hours
-        });
-        return {auth: true, token: token, user: user}
-      });
-    });
+  return new Promise(async (resolve) => {
+    // создание пользователя
+    await userModel.createUser([
+         email,
+         hash,
+         1 // role
+       ],
+       async (err) => { // обрабатываем ошибку
+         if (err) {
+           return resolve('При регистрации пользователя возникла ошибка')
+         }
+
+         // если пользователь создан, то возвращаем его инфо + токен
+         return await userModel.selectByEmail(email, (err, user) => {
+           if (err) return 'Возникла проблема с получением пользователя'
+           let token = jwt.sign({id: user.id}, config.secret, {
+             expiresIn: 86400 // expires in 24 hours
+           });
+           return resolve({auth: true, token: token, user: user})
+         });
+       });
+  })
+
+  /*return new Promise(async (resolve) => {
+    // создание пользователя
+    await userModel.createUser([
+         email,
+         hash,
+         1 // role
+       ],
+       async (err) => { // обрабатываем ошибку
+         if (err) {
+           return resolve('При регистрации пользователя возникла ошибка')
+         }
+
+         // если пользователь создан, то возвращаем его инфо + токен
+         return await userModel.selectByEmail(email, (err, user) => {
+           if (err) return 'Возникла проблема с получением пользователя'
+           let token = jwt.sign({id: user.id}, config.secret, {
+             expiresIn: 86400 // expires in 24 hours
+           });
+           return resolve({auth: true, token: token, user: user})
+         });
+       });
+  })*/
+
 }
 
 /*
@@ -87,12 +122,9 @@ const createUser = async (email, hash) => {
   data: {
     auth: true,
     token: token,
-    user: user
   }
 }*/
 
-/*
-*/
 const authUser = async (email, password) => {
   try {
     const checkUser = new Promise((resolve, reject) => {
@@ -125,8 +157,7 @@ const authUser = async (email, password) => {
       user: user
     };
   } catch (e) {
-    console.log(e)
-    //throw new Error(e)
+    throw new Error(e.message)
   }
 }
 

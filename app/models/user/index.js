@@ -8,7 +8,7 @@ const createTable = () => {
         username text, 
         email text UNIQUE, 
         password text,
-        is_admin integer)`
+        role integer)`
   return this.db.run(sql);
 }
 
@@ -27,10 +27,10 @@ const selectByEmail = async (email, callback) => {
      })
 }
 
-const createUser = async ([email, password], callback) => {
+const createUser = async ([email, password, role], callback) => {
   return await db.run(
-     'INSERT INTO user (email,password) VALUES (?,?)',
-     [email, password], (err) => {
+     'INSERT INTO user (email,password,role) VALUES (?,?,?)',
+     [email, password, role], (err) => {
        callback(err)
      })
 }
