@@ -1,8 +1,11 @@
 const path = require('path');
 const express = require('express');
+//import { NestFactory } from '@nestjs/core';
+//const NestFactory = require('@nestjs/core').NestFactory;
+//import { AppModule } from './core/app.module';
 
-/*const DB = require('./db');
-const db = new DB("sqlitedb")*/
+const DB = require('./db');
+const db = new DB("sqlitedb")
 
 const {createBundleRenderer} = require('vue-server-renderer');
 const template = require('fs').readFileSync(

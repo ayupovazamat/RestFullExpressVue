@@ -1,20 +1,32 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    // this enables stricter inference for data properties on `this`
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
-    "baseUrl": ".",
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "module": "commonjs",
+    "target": "ES6",
+    "noImplicitAny": true,
+    "removeComments": true,
+    //"outDir": "bin/",
+    "sourceMap": false,
+
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    //"target": "es2017",
+    //"sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true
   },
+  "lib": [
+    "esnext",
+    "dom",
+    "dom.iterable",
+    "scripthost"
+  ],
   "include": [
     "src/**/*.ts",
     "src/**/*.vue"

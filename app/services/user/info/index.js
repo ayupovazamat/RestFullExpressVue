@@ -2,7 +2,8 @@ const infoUser = () => {
   try {
     return 'userInfo'
   } catch (e) {
-    throw new Error(e.message)
+    console.log(e)
+    //throw new Error(e.message)
   }
 }
 
