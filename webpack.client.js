@@ -48,7 +48,7 @@ if (!isProduction) {
     devServer: {
       writeToDisk: true,
       contentBase: path.resolve(__dirname, 'dist'),
-      publicPath: 'http://192.168.88.45:9999/dist/',
+      publicPath: 'http://localhost:9999/dist/',
       hot: true,
       inline: true,
       historyApiFallback: true,
